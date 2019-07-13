@@ -1,0 +1,33 @@
+input{
+    padding:10px;
+    font-size:14px;
+    background-color:rgb(242,243,244);
+    color: rgb(169,173,180);
+    border: none;
+    caret-color: rgb(103, 235, 132);
+}
+.close-icon{
+    display: inline-block;
+    position: absolute;
+    top:2px;
+    border:1px solid transparent;
+	background-color: transparent;
+    right: 0;
+    padding:5px 10px;
+    outline: 0;
+    font-size: 18px;
+}
+.close-icon:hover{
+    font-weight: bolder;
+}
+
+
+input:focus{
+    background-color: #ffffff;
+    color:#000000;
+    /* outline-color:#1a73e8; */
+    outline: none;
+    /* box-shadow: 0 -10px -4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
+
+}
+

@@ -28,11 +28,11 @@ class Header extends React.Component {
         // Filtering Data
         if(e.target.value!==""){
             const filteredData=Data.filter((val)=>{
-                if (val.id.search(e.target.value) > -1
-                    ||val.name.toLowerCase().search(e.target.value) > -1
-                    ||val.address.toLowerCase().search(e.target.value) > -1
-                    ||val.pincode.search(e.target.value) > -1
-                    || val.items.join(" ").toLowerCase().search(e.target.value)>-1)
+                if (val.id.search(this.state.search) > -1
+                    ||val.name.toLowerCase().search(this.state.search) > -1
+                    ||val.address.toLowerCase().search(this.state.search) > -1
+                    ||val.pincode.search(this.state.search) > -1
+                    || val.items.join(" ").toLowerCase().search(this.state.search)>-1)
                 return true;
                 
                 else{
@@ -51,9 +51,11 @@ class Header extends React.Component {
     }
 
     focus(){
+        console.log('focus')
         this.refs.container.classList=["search-header focus"]
     }
     blur(){
+        console.log('out of focus')
         this.refs.container.classList=["search-header"]
     }
 
@@ -63,24 +65,27 @@ class Header extends React.Component {
         }
     }
 
-    keypress(e){
+    keypress(e){        
         if(this.refs[this.state.active])
-        this.refs[this.state.active].classList="";
+       { 
+           this.refs[this.state.active].classList="";
+           this.refs[this.state.active].parentElement.classList="hide-mouse";
+
+        }
         if(e.keyCode===40){//keypress Down
             e.preventDefault();
-            if(this.state.active>this.state.searchResults.length-1){
+            if(this.state.active>this.state.searchResults.length){
                 this.setState({active:null})
             }
             
             this.setState({
                 active:this.state.active!==null && this.state.active<this.state.searchResults.length-1?this.state.active+1:0
             })
-            
             if(this.state.active!==null && this.state.active<this.state.searchResults.length){
                 
-                this.refs[this.state.active].parentElement.classList="hide-mouse";
                 this.refs[this.state.active].scrollIntoView({block:'start',behavior:'smooth'})
             }
+            
             
         }
         else if(e.keyCode===38){ //keypress Up
@@ -97,7 +102,9 @@ class Header extends React.Component {
             if(this.state.active!==null && this.state.active> -1)
             this.refs[this.state.active].scrollIntoView({block:'end',behavior:'smooth'});
             
-            
+
+            // this.refs[this.state.active].parentElement.classList="hide-mouse";
+
         }
         
         else{
@@ -105,13 +112,13 @@ class Header extends React.Component {
             this.refs[this.state.active].classList="active";
         }
         
-        console.log(this.state.active)
     }
 
     render(){
         return (
             <div className="search-header" ref="container"
             onMouseMove={this.restoreMouse}
+            onBlur={this.removeMouse}
             >
                 <Input
                 name="search"
@@ -133,6 +140,7 @@ class Header extends React.Component {
                         return (
                         <li ref={idx}
                             onMouseOver={(e)=>{this.setState({active:idx})}}
+                            onBlur={this.blur}
                              className={this.state.active===idx?"active":""} key={idx}><UserList highlight={this.state.search} user={item}/></li>
                              )
                     })}
